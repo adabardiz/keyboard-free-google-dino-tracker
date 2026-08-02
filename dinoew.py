@@ -10,7 +10,6 @@ mp_face_mesh = mp.solutions.face_mesh
 
 hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.7)
 face_mesh = mp_face_mesh.FaceMesh(max_num_faces=1, min_detection_confidence=0.7)
-
 cap = cv2.VideoCapture(0)
 
 last_jump_time = 0
@@ -60,7 +59,7 @@ while cap.isOpened():
                 jump_triggered = True
             else:
                 cv2.putText(image, f"WALK ({int(distance)})", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
-
+#fix here doesn't detect eyes sometimes
     if face_results.multi_face_landmarks:
         for face_landmarks in face_results.multi_face_landmarks:
             # 159 (upper) and 145 (lower) for  right eye
@@ -75,7 +74,7 @@ while cap.isOpened():
 
     if jump_triggered and (current_time - last_jump_time > JUMP_COOLDOWN):
         pyautogui.keyDown('space') 
-        time.sleep(0.05) # Tiny delay to register the press
+        time.sleep(0.05) 
         pyautogui.keyUp('space')
         last_jump_time = current_time
 
